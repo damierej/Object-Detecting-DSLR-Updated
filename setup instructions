@@ -1,0 +1,62 @@
+Setup Instructions
+1. Hardware Setup
+
+    Connect the Push-Button:
+        Connect one pin of the push-button to Pin 3 on the Arduino Mega.
+        Connect the opposite pin to GND.
+    Connect the LED:
+        Connect the LED anode to Pin 2 and cathode to GND.
+    Optional Buzzer:
+        Connect the buzzer to Pin 12 and GND.
+    Connect the Camera:
+        Connect the Canon EOS 90D to your computer via USB.
+        Install Canon EOS Utility and ensure it can communicate with the camera.
+
+2. Software Setup
+
+    Arduino:
+        Open src/security_cam.ino in the Arduino IDE.
+        Upload the sketch to your Arduino Mega.
+        Open the Serial Monitor to verify “MOTION” and “STOP” messages when pressing/releasing the button.
+    AutoHotkey:
+        Install AutoHotkey v2 (C:\Program Files\AutoHotkey\v2\AutoHotkey64.exe).
+        Place src/trigger_camera.ahk in the project directory.
+    Python:
+        Install Python 3.8+.
+        Install dependencies:
+        bash
+
+        pip install -r requirements.txt
+        Ensure src/models/custom_mobilenet.h5 and src/cascades/haarcascade_frontalface_default.xml are in place.
+
+3. Running the System
+
+    Start the EOS Utility:
+        Open Canon EOS Utility and ensure the EOS 90D is connected.
+    Run the Python Script:
+        Navigate to the project directory:
+        bash
+
+cd path/to/Object-Detection-DSLR
+Run:
+bash
+
+        python src/security_cam.py
+    Trigger Motion:
+        Press and hold the push-button to send “MOTION”.
+        Release to send “STOP”.
+        The system will capture photos, process them, and activate the LED/buzzer if objects or faces are detected.
+
+Notes
+
+    The EOS Utility saves photos as CR3 files in C:\Users\<your-username>\Pictures\Security. The script converts these to JPEG for processing.
+    The system minimizes the EOS Utility automatically to keep the VS Code console visible.
+    Consecutive photos are taken with no delay, but ensure the EOS Utility can handle rapid captures.
+
+License
+
+This project is licensed under the MIT License - see the  file for details.
+Acknowledgments
+
+    Built with guidance from Grok (xAI) for troubleshooting and optimization.
+    Uses MobileNetV2 for object detection and OpenCV for face detection.
